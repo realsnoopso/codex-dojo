@@ -23,6 +23,7 @@ def build_current_user_dependency(
     """Build a current-user dependency from an application user lookup."""
 
     def get_current_user(username: str = Depends(get_current_username)) -> User:
+        """Return the current user for a resolved username."""
         stored_user = user_lookup(username)
         if stored_user is None:
             raise HTTPException(
