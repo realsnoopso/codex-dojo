@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from utils import TAX_RATE
+from utils import DEFAULT_CONFIG
 
 app = FastAPI(title="Codex Dojo API")
 
@@ -30,7 +30,7 @@ def root():
 @app.post("/items")
 def create_item(item: Item):
     new_id = str(uuid4())
-    tax = item.price * TAX_RATE
+    tax = item.price * DEFAULT_CONFIG.tax_rate
     items_db[new_id] = {**item.model_dump(), "tax": tax}
     return ItemResponse(id=new_id, name=item.name, price=item.price, tax=tax)
 
